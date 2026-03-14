@@ -1,0 +1,39 @@
+{
+  "name": "agentping",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for AgentPing — escalation alerts for AI agents via SMS and voice calls.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "tsc"
+  },
+  "keywords": [
+    "agentping",
+    "ai-agent",
+    "sms",
+    "voice",
+    "escalation",
+    "alerts"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agentping/agentping-sdk"
+  },
+  "homepage": "https://agentping.me",
+  "devDependencies": {
+    "typescript": "^5.5"
+  }
+}
