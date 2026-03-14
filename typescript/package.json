@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "test": "vitest run",
     "prepublishOnly": "tsc"
   },
   "keywords": [
@@ -34,6 +35,7 @@
   },
   "homepage": "https://agentping.me",
   "devDependencies": {
-    "typescript": "^5.5"
+    "typescript": "^5.5",
+    "vitest": "^3.0"
   }
 }
