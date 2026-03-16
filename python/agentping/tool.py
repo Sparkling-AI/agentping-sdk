@@ -29,12 +29,13 @@ def tool_definition() -> dict[str, Any]:
         "function": {
             "name": "agentping_alert",
             "description": (
-                "Escalate an alert to the user via SMS and/or phone call through "
+                "Escalate an alert to the user via phone call through "
                 "AgentPing. Use this when you need the user's attention and they "
                 "haven't responded to your chat message. Always try messaging the "
                 "user in chat first — use this tool as a fallback escalation path. "
-                "Choose severity based on urgency: 'low' for SMS only, 'urgent' "
-                "for SMS then call, 'critical' for immediate call, "
+                "Choose severity based on urgency: 'normal' for a voice call "
+                "with retry (recommended default), 'critical' for immediate call "
+                "that bypasses quiet hours with more retries, "
                 "'persistent_critical' for repeated calls until acknowledged."
             ),
             "parameters": {
@@ -46,12 +47,19 @@ def tool_definition() -> dict[str, Any]:
                     },
                     "severity": {
                         "type": "string",
-                        "enum": ["low", "urgent", "critical", "persistent_critical"],
+                        "enum": [
+                            "normal",
+                            "critical",
+                            "persistent_critical",
+                            "low",
+                            "urgent",
+                        ],
                         "description": (
                             "How urgently the user needs to respond. "
-                            "'low': SMS only. 'urgent': SMS, then phone call if not acknowledged. "
-                            "'critical': immediate phone call. "
-                            "'persistent_critical': repeated calls until acknowledged."
+                            "'normal': voice call with retry (recommended default). "
+                            "'critical': immediate call, more retries, bypasses quiet hours. "
+                            "'persistent_critical': repeated calls until acknowledged. "
+                            "'low' and 'urgent' are deprecated — both map to 'normal'."
                         ),
                     },
                     "message": {

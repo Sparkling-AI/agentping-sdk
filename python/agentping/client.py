@@ -15,9 +15,15 @@ from agentping.exceptions import (
     ValidationError,
 )
 
-Severity = Literal["low", "urgent", "critical", "persistent_critical"]
+Severity = Literal[
+    "normal",
+    "critical",
+    "persistent_critical",
+    "low",    # deprecated — mapped to "normal" by the API
+    "urgent",  # deprecated — mapped to "normal" by the API
+]
 AlertType = Literal["approval", "task_failure", "threshold", "reminder", "other"]
-AckSource = Literal["dtmf", "sms_link", "api", "chat", "manual"]
+AckSource = Literal["dtmf", "sms_link", "sms_reply", "api", "chat", "manual"]
 
 DEFAULT_BASE_URL = "https://api.agentping.me"
 
@@ -32,7 +38,7 @@ class AgentPingClient:
         client = AgentPingClient(api_key="ap_sk_...")
         alert = client.send_alert(
             title="Deploy approval needed",
-            severity="urgent",
+            severity="normal",
             alert_type="approval",
         )
         print(alert["id"], alert["status"])

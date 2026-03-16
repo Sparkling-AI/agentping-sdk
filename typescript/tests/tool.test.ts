@@ -49,8 +49,14 @@ describe("toolDefinition", () => {
     const td = toolDefinition();
     const sev = (td.function as any).parameters.properties.severity;
     expect(new Set(sev.enum)).toEqual(
-      new Set(["low", "urgent", "critical", "persistent_critical"]),
+      new Set(["normal", "critical", "persistent_critical", "low", "urgent"]),
     );
+  });
+
+  it("normal is first severity option", () => {
+    const td = toolDefinition();
+    const sev = (td.function as any).parameters.properties.severity;
+    expect(sev.enum[0]).toBe("normal");
   });
 
   it("alert_type has correct enum values", () => {

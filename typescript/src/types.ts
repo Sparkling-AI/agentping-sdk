@@ -1,4 +1,9 @@
-export type Severity = "low" | "urgent" | "critical" | "persistent_critical";
+export type Severity =
+  | "normal"
+  | "critical"
+  | "persistent_critical"
+  | "low"    // deprecated — mapped to "normal" by the API
+  | "urgent"; // deprecated — mapped to "normal" by the API
 
 export type AlertType =
   | "approval"
@@ -7,7 +12,7 @@ export type AlertType =
   | "reminder"
   | "other";
 
-export type AckSource = "dtmf" | "sms_link" | "api" | "chat" | "manual";
+export type AckSource = "dtmf" | "sms_link" | "sms_reply" | "api" | "chat" | "manual";
 
 export interface SendAlertOptions {
   /** Short title for the alert (1–500 chars). */

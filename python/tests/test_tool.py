@@ -34,7 +34,14 @@ class TestToolDefinition:
     def test_severity_enum(self):
         td = tool_definition()
         sev = td["function"]["parameters"]["properties"]["severity"]
-        assert set(sev["enum"]) == {"low", "urgent", "critical", "persistent_critical"}
+        assert set(sev["enum"]) == {
+            "normal", "critical", "persistent_critical", "low", "urgent",
+        }
+
+    def test_normal_is_first_severity(self):
+        td = tool_definition()
+        sev = td["function"]["parameters"]["properties"]["severity"]
+        assert sev["enum"][0] == "normal"
 
     def test_alert_type_enum(self):
         td = tool_definition()

@@ -1,6 +1,6 @@
 # AgentPing Python SDK
 
-Official Python SDK for [AgentPing](https://agentping.me) — escalation alerts for AI agents via SMS and voice calls.
+Official Python SDK for [AgentPing](https://agentping.me) — escalation alerts for AI agents via voice calls.
 
 ## Install
 
@@ -15,13 +15,12 @@ from agentping import AgentPingClient
 
 client = AgentPingClient(api_key="ap_sk_...")
 
-# Send an alert
+# Send an alert (voice call with retry)
 alert = client.send_alert(
     title="Deploy approval needed",
-    severity="urgent",
+    severity="normal",
     message="v2.4.1 ready for production. 3 migrations pending.",
     alert_type="approval",
-    delay_seconds=300,
 )
 
 print(alert["id"])       # "550e8400-..."
@@ -69,7 +68,7 @@ agentping = AgentPingClient(api_key="ap_sk_...")
 messages = [
     {"role": "system", "content": """You are a helpful assistant.
 When you need the user's attention and they haven't responded to your message,
-use the agentping_alert tool to escalate via SMS/call.
+use the agentping_alert tool to escalate via voice call.
 Always try messaging in chat first — use agentping_alert as a fallback."""},
     {"role": "user", "content": "Monitor my deploy and alert me if it fails."},
 ]
@@ -111,7 +110,7 @@ response = anthropic.messages.create(
     max_tokens=1024,
     system="""You are a helpful assistant.
 When you need the user's attention and they haven't responded,
-use the agentping_alert tool to escalate via SMS/call.""",
+use the agentping_alert tool to escalate via voice call.""",
     messages=[{"role": "user", "content": "Monitor my deploy and alert me if it fails."}],
     tools=[anthropic_tool],
 )
@@ -127,10 +126,11 @@ for block in response.content:
 
 | Severity | Delivery | Behavior |
 |----------|----------|----------|
-| `low` | SMS only | Single text, no follow-up |
-| `urgent` | SMS → Call | SMS first, call after 5 min if not acked |
-| `critical` | Immediate call | Phone call right away, retries after 3 min |
-| `persistent_critical` | Repeated calls | Calls every 2 min until acked or limit hit |
+| `normal` | Voice call | Call with retry (recommended default) |
+| `critical` | Immediate call | More retries, bypasses quiet hours |
+| `persistent_critical` | Repeated calls | Calls until acknowledged or retry limit hit |
+
+> **Deprecated:** `low` and `urgent` are still accepted but mapped to `normal` by the API.
 
 ## Alert types
 
@@ -150,7 +150,7 @@ from agentping import AgentPingClient, RateLimitError, ForbiddenError
 client = AgentPingClient(api_key="ap_sk_...")
 
 try:
-    client.send_alert(title="Test", severity="low")
+    client.send_alert(title="Test", severity="normal")
 except RateLimitError:
     print("Too many alerts — wait before retrying")
 except ForbiddenError as e:

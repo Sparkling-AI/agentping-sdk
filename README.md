@@ -1,6 +1,6 @@
 # AgentPing SDKs
 
-Official client libraries for [AgentPing](https://agentping.me) — escalation alerts for AI agents via SMS and voice calls.
+Official client libraries for [AgentPing](https://agentping.me) — escalation alerts for AI agents via voice calls.
 
 ## Languages
 
@@ -29,9 +29,8 @@ client = AgentPingClient(api_key="ap_sk_...")
 
 alert = client.send_alert(
     title="Deploy approval needed",
-    severity="urgent",
+    severity="normal",
     alert_type="approval",
-    delay_seconds=300,
 )
 ```
 
@@ -44,9 +43,8 @@ const client = new AgentPingClient({ apiKey: "ap_sk_..." });
 
 const alert = await client.sendAlert({
   title: "Deploy approval needed",
-  severity: "urgent",
+  severity: "normal",
   alert_type: "approval",
-  delay_seconds: 300,
 });
 ```
 

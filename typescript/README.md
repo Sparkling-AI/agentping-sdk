@@ -1,6 +1,6 @@
 # AgentPing TypeScript SDK
 
-Official TypeScript/JavaScript SDK for [AgentPing](https://agentping.me) — escalation alerts for AI agents via SMS and voice calls.
+Official TypeScript/JavaScript SDK for [AgentPing](https://agentping.me) — escalation alerts for AI agents via voice calls.
 
 ## Install
 
@@ -15,13 +15,12 @@ import { AgentPingClient } from "agentping";
 
 const client = new AgentPingClient({ apiKey: "ap_sk_..." });
 
-// Send an alert
+// Send an alert (voice call with retry)
 const alert = await client.sendAlert({
   title: "Deploy approval needed",
-  severity: "urgent",
+  severity: "normal",
   message: "v2.4.1 ready for production. 3 migrations pending.",
   alert_type: "approval",
-  delay_seconds: 300,
 });
 
 console.log(alert.id);     // "550e8400-..."
@@ -68,7 +67,7 @@ const response = await openai.chat.completions.create({
       role: "system",
       content: `You are a helpful assistant.
 When you need the user's attention and they haven't responded,
-use the agentping_alert tool to escalate via SMS/call.
+use the agentping_alert tool to escalate via voice call.
 Always try messaging in chat first — use agentping_alert as a fallback.`,
     },
     { role: "user", content: "Monitor my deploy and alert me if it fails." },
@@ -108,7 +107,7 @@ const response = await anthropic.messages.create({
   max_tokens: 1024,
   system: `You are a helpful assistant.
 When you need the user's attention and they haven't responded,
-use the agentping_alert tool to escalate via SMS/call.`,
+use the agentping_alert tool to escalate via voice call.`,
   messages: [
     { role: "user", content: "Monitor my deploy and alert me if it fails." },
   ],
@@ -130,10 +129,11 @@ for (const block of response.content) {
 
 | Severity | Delivery | Behavior |
 |----------|----------|----------|
-| `low` | SMS only | Single text, no follow-up |
-| `urgent` | SMS → Call | SMS first, call after 5 min if not acked |
-| `critical` | Immediate call | Phone call right away, retries after 3 min |
-| `persistent_critical` | Repeated calls | Calls every 2 min until acked or limit hit |
+| `normal` | Voice call | Call with retry (recommended default) |
+| `critical` | Immediate call | More retries, bypasses quiet hours |
+| `persistent_critical` | Repeated calls | Calls until acknowledged or retry limit hit |
+
+> **Deprecated:** `low` and `urgent` are still accepted but mapped to `normal` by the API.
 
 ## Alert types
 
@@ -157,7 +157,7 @@ import {
 const client = new AgentPingClient({ apiKey: "ap_sk_..." });
 
 try {
-  await client.sendAlert({ title: "Test", severity: "low" });
+  await client.sendAlert({ title: "Test", severity: "normal" });
 } catch (err) {
   if (err instanceof RateLimitError) {
     console.log("Too many alerts — wait before retrying");
