@@ -339,6 +339,21 @@ Before using this skill in OpenClaw:
 2. Verify at least one phone number
 3. Go to https://agentping.me/api-keys and create an API key
 4. Copy the key immediately because it is shown only once
-5. In OpenClaw, set the API key as the `AGENTPING_API_KEY` environment variable for the agent or skill
+5. In OpenClaw, edit `~/.openclaw/openclaw.json` and add the key under `skills.entries.agentping.apiKey`
 
-This skill declares `AGENTPING_API_KEY` in its metadata, but users still need to generate the key in AgentPing and add it to their OpenClaw environment or secrets configuration.
+Example:
+
+```json5
+{
+  skills: {
+    entries: {
+      agentping: {
+        enabled: true,
+        apiKey: "ap_sk_your_key_here",
+      },
+    },
+  },
+}
+```
+
+This skill declares `AGENTPING_API_KEY` in its metadata, and OpenClaw maps `skills.entries.agentping.apiKey` to that env var at runtime.
