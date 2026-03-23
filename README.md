@@ -2,12 +2,13 @@
 
 Official client libraries for [AgentPing](https://agentping.me) — escalation alerts for AI agents via voice calls.
 
-## Languages
+## SDKs & Integrations
 
-| Language | Directory | Install |
-|----------|-----------|---------|
-| Python | [`python/`](./python) | `pip install agentping` |
-| TypeScript | [`typescript/`](./typescript) | `npm install agentping` |
+| Package | Directory | Install |
+|---------|-----------|---------|
+| Python SDK | [`python/`](./python) | `pip install agentping` |
+| TypeScript SDK | [`typescript/`](./typescript) | `npm install agentping` |
+| OpenClaw Skill | [`openclaw/`](./openclaw) | `clawhub install agentping` |
 
 ## What's included
 
@@ -72,8 +73,23 @@ const result = await handleToolCall(client, args);
 
 Works with OpenAI, Anthropic Claude, LangChain, and any framework that supports function-calling tools. See each SDK's README for detailed examples.
 
+## OpenClaw Skill
+
+The [`openclaw/`](./openclaw) directory contains an [OpenClaw](https://openclaw.ai) skill that can be installed from [ClawHub](https://clawhub.ai). It teaches the OpenClaw agent how to escalate alerts via AgentPing using the "chat first, escalate second" pattern.
+
+Install it locally:
+```bash
+clawhub install agentping
+```
+
+Or publish your own version:
+```bash
+clawhub publish ./openclaw --slug agentping --version 1.0.0
+```
+
 ## Links
 
 - [AgentPing](https://agentping.me)
 - [API docs](https://agentping.me/docs)
+- [ClawHub skill](https://clawhub.ai/skill/agentping)
 - [OpenClaw skill spec](https://github.com/agentping/agentping-sdk/blob/main/docs/openclaw-skill-spec.md)
