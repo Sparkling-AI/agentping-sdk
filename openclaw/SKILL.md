@@ -331,10 +331,14 @@ Quiet-hours note:
 - `critical` bypasses quiet hours
 - quiet hours are a paid-plan feature; free users do not get quiet-hours suppression
 
-## Setup
+## OpenClaw Setup
 
-The user needs an AgentPing account at https://agentping.me with:
-1. At least one verified phone number
-2. An API key
+Before using this skill in OpenClaw:
 
-Set the API key as the `AGENTPING_API_KEY` environment variable.
+1. Create an AgentPing account at https://agentping.me
+2. Verify at least one phone number
+3. Go to https://agentping.me/api-keys and create an API key
+4. Copy the key immediately because it is shown only once
+5. In OpenClaw, set the API key as the `AGENTPING_API_KEY` environment variable for the agent or skill
+
+This skill declares `AGENTPING_API_KEY` in its metadata, but users still need to generate the key in AgentPing and add it to their OpenClaw environment or secrets configuration.
