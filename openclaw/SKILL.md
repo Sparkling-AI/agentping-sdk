@@ -1,6 +1,6 @@
 ---
 name: agentping
-description: Escalate alerts to the user via voice calls when chat messages go unanswered. Voice-call-first escalation layer for AI agents.
+description: Phone call alerts for AI agents — calls your phone when chat messages go unanswered. Retry, snooze, and acknowledge from your keypad. Free account at agentping.me required.
 version: 1.0.0
 homepage: https://agentping.me
 metadata:
