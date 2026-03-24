@@ -1,6 +1,6 @@
 ---
 name: agentping
-description: Phone call alerts for AI agents — calls your phone when chat goes unanswered. Retry, snooze, and acknowledge via keypad.
+description: Phone call alerts for AI agents — calls your phone when chat goes unanswered or needs your urgent attention. Free account at agentping.me required.
 version: 1.0.0
 homepage: https://agentping.me
 metadata:
