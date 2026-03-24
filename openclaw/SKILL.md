@@ -1,6 +1,6 @@
 ---
 name: agentping
-description: Escalate alerts to the user via voice calls when chat messages go unanswered. Voice-first escalation layer for AI agents.
+description: Escalate alerts to the user via voice calls when chat messages go unanswered. Voice-call-first escalation layer for AI agents.
 version: 1.0.0
 homepage: https://agentping.me
 metadata:
@@ -296,6 +296,26 @@ Preferred pattern:
 - **Do not spam.** Rate limit is 20 alerts per hour.
 - **Keep titles short and clear.** The title is spoken aloud during the call.
 - **Include enough context in `message`.** The user should understand the issue from the phone call alone.
+
+## External Endpoints
+
+This skill contacts the following endpoints over HTTPS:
+
+| Endpoint | Method | Data Sent |
+|----------|--------|-----------|
+| `https://api.agentping.me/v1/alerts` | POST | Alert title, severity, message, alert_type, delay_seconds, phone_number, expires_in_minutes, metadata |
+| `https://api.agentping.me/v1/alerts/{id}` | GET | None (reads alert status) |
+| `https://api.agentping.me/v1/alerts/{id}/acknowledge` | POST | Acknowledgement source |
+
+All requests are authenticated with the user's `AGENTPING_API_KEY` via the `X-API-Key` header.
+
+## Security & Privacy
+
+- All communication with `api.agentping.me` uses HTTPS (TLS 1.2+).
+- The API key (`AGENTPING_API_KEY`) is a per-user secret that authorizes requests on behalf of the user's account. It is never sent to any other service.
+- Voice calls are placed only to phone numbers the user has previously verified on their AgentPing account. This skill cannot call arbitrary numbers.
+- Alert content (title, message, metadata) is stored on AgentPing's servers for the user's alert history and is spoken aloud during the phone call.
+- No data is shared with third parties beyond the telephony provider (Twilio) which delivers the voice call.
 
 ## What Happens During the Phone Call
 
