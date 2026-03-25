@@ -8,7 +8,7 @@ Official client libraries for [AgentPing](https://agentping.me) — escalation a
 |---------|-----------|---------|
 | Python SDK | [`python/`](./python) | `pip install agentping` |
 | TypeScript SDK | [`typescript/`](./typescript) | `npm install agentping` |
-| OpenClaw Skill | [`openclaw/`](./openclaw) | `clawhub install agentping` |
+| OpenClaw Skill | [`openclaw/`](./openclaw) | `clawhub install agentping-phone-call-alerts` |
 
 ## What's included
 
@@ -79,17 +79,17 @@ The [`openclaw/`](./openclaw) directory contains an [OpenClaw](https://openclaw.
 
 Install it locally:
 ```bash
-clawhub install agentping
+clawhub install agentping-phone-call-alerts
 ```
 
 Or publish your own version:
 ```bash
-clawhub publish ./openclaw --slug agentping --version 1.0.0
+clawhub publish ./openclaw --slug agentping-phone-call-alerts --version 1.0.4
 ```
 
 ## Links
 
 - [AgentPing](https://agentping.me)
 - [API docs](https://agentping.me/docs)
-- [ClawHub skill](https://clawhub.ai/skill/agentping)
+- [ClawHub skill](https://clawhub.ai/skills/agentping-phone-call-alerts)
 - [OpenClaw skill spec](https://github.com/agentping/agentping-sdk/blob/main/docs/openclaw-skill-spec.md)

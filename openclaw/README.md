@@ -5,7 +5,7 @@ Voice-call-first escalation for AI agents. When your agent truly needs you, Agen
 ## Install
 
 ```bash
-clawhub install agentping
+clawhub install agentping-phone-call-alerts
 ```
 
 ## Setup
@@ -41,4 +41,4 @@ See [SKILL.md](./SKILL.md) for the full tool specification and usage examples.
 
 - Website: [agentping.me](https://agentping.me)
 - Docs: [agentping.me/docs](https://agentping.me/docs)
-- ClawHub: [clawhub.ai/skills/agentping](https://clawhub.ai/skills/agentping)
+- ClawHub: [clawhub.ai/skills/agentping-phone-call-alerts](https://clawhub.ai/skills/agentping-phone-call-alerts)

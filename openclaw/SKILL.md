@@ -1,7 +1,7 @@
 ---
 name: agentping
-description: Phone call alerts for AI agents — calls your phone when chat goes unanswered or needs your urgent attention. Free account at agentping.me required.
-version: 1.0.0
+description: Phone call alerts when your agent needs urgent attention. Voice escalation with retries, snooze, and acknowledgement tracking. Like on-call for devs.
+version: 1.0.4
 homepage: https://agentping.me
 metadata:
   openclaw:
