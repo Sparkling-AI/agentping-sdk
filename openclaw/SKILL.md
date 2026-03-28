@@ -1,6 +1,6 @@
 ---
 name: agentping
-description: Phone call alerts when your agent needs urgent attention. Voice escalation with retries, snooze, and acknowledgement tracking. Like on-call for devs.
+description: Phone call alerts when your agent needs urgent attention. Voice escalation with retries, snooze, and acknowledgement tracking. Never miss a critical alert.
 version: 1.0.4
 homepage: https://agentping.me
 metadata:
