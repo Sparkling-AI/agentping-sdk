@@ -1,7 +1,7 @@
 {
   "name": "agentping",
   "version": "0.1.0",
-  "description": "TypeScript SDK for AgentPing — escalation alerts for AI agents via SMS and voice calls.",
+  "description": "TypeScript SDK for AgentPing — phone call alerts when your AI agent needs you.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,15 +23,15 @@
   "keywords": [
     "agentping",
     "ai-agent",
-    "sms",
     "voice",
+    "phone-call",
     "escalation",
     "alerts"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/agentping/agentping-sdk"
+    "url": "https://github.com/Sparkling-AI/agentping-sdk"
   },
   "homepage": "https://agentping.me",
   "devDependencies": {

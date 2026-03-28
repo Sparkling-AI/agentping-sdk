@@ -1,6 +1,6 @@
 # AgentPing TypeScript SDK
 
-Official TypeScript/JavaScript SDK for [AgentPing](https://agentping.me) — escalation alerts for AI agents via voice calls.
+Official TypeScript/JavaScript SDK for [AgentPing](https://agentping.me) — phone call alerts when your AI agent needs you.
 
 ## Install
 
@@ -28,7 +28,7 @@ console.log(alert.status); // "waiting_for_primary_ack"
 
 // Check status later
 const status = await client.getAlert(alert.id);
-console.log(status.status); // "acknowledged", "escalating_sms", etc.
+console.log(status.status); // "acknowledged", "escalating", etc.
 
 // Acknowledge programmatically (stops escalation)
 const ack = await client.acknowledge(alert.id);
@@ -127,13 +127,12 @@ for (const block of response.content) {
 
 ## Severity levels
 
-| Severity | Delivery | Behavior |
-|----------|----------|----------|
-| `normal` | Voice call | Call with retry (recommended default) |
-| `critical` | Immediate call | More retries, bypasses quiet hours |
-| `persistent_critical` | Repeated calls | Calls until acknowledged or retry limit hit |
+| Severity | Behavior |
+|----------|----------|
+| `normal` | Voice call with retries (2 min apart), respects quiet hours |
+| `critical` | Voice call with retries, bypasses quiet hours |
 
-> **Deprecated:** `low` and `urgent` are still accepted but mapped to `normal` by the API.
+> **Deprecated:** `low`, `urgent`, and `persistent_critical` are still accepted for backwards compatibility. `persistent_critical` maps to `critical`; others map to `normal`.
 
 ## Alert types
 
@@ -178,4 +177,4 @@ try {
 
 - [AgentPing docs](https://agentping.me/docs)
 - [API reference](https://agentping.me/docs)
-- [GitHub](https://github.com/agentping/agentping-sdk/tree/main/typescript)
+- [GitHub](https://github.com/Sparkling-AI/agentping-sdk/tree/main/typescript)

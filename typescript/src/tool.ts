@@ -18,8 +18,7 @@ export function toolDefinition(): Record<string, unknown> {
         "user in chat first — use this tool as a fallback escalation path. " +
         "Choose severity based on urgency: 'normal' for a voice call " +
         "with retry (recommended default), 'critical' for immediate call " +
-        "that bypasses quiet hours with more retries, " +
-        "'persistent_critical' for repeated calls until acknowledged.",
+        "that bypasses quiet hours with more retries.",
       parameters: {
         type: "object",
         properties: {
@@ -41,13 +40,13 @@ export function toolDefinition(): Record<string, unknown> {
               "How urgently the user needs to respond. " +
               "'normal': voice call with retry (recommended default). " +
               "'critical': immediate call, more retries, bypasses quiet hours. " +
-              "'persistent_critical': repeated calls until acknowledged. " +
-              "'low' and 'urgent' are deprecated — both map to 'normal'.",
+              "'persistent_critical', 'low', and 'urgent' are deprecated — " +
+              "'persistent_critical' maps to 'critical', others map to 'normal'.",
           },
           message: {
             type: "string",
             description:
-              "Longer description with context. Included in SMS and voice call. Max 2000 characters.",
+              "Longer description with context. Included in the voice call. Max 2000 characters.",
           },
           alert_type: {
             type: "string",
@@ -67,7 +66,7 @@ export function toolDefinition(): Record<string, unknown> {
           delay_seconds: {
             type: "integer",
             description:
-              "Seconds to wait before starting SMS/call delivery. " +
+              "Seconds to wait before starting call delivery. " +
               "Gives the user time to see your chat message first. " +
               "If omitted, uses the default for the alert_type. Set to 0 for immediate.",
             minimum: 0,
