@@ -1,11 +1,11 @@
 # AgentPing Python SDK
 
-Official Python SDK for [AgentPing](https://agentping.me) — escalation alerts for AI agents via voice calls.
+Official Python SDK for [AgentPing](https://agentping.me) — phone call alerts when your AI agent needs you.
 
 ## Install
 
 ```bash
-pip install agentping
+pip install agentping-sdk
 ```
 
 ## Quick start
@@ -28,7 +28,7 @@ print(alert["status"])   # "waiting_for_primary_ack"
 
 # Check status later
 status = client.get_alert(alert["id"])
-print(status["status"])  # "acknowledged", "escalating_sms", etc.
+print(status["status"])  # "acknowledged", "escalating", etc.
 
 # Acknowledge programmatically (stops escalation)
 ack = client.acknowledge(alert["id"])
@@ -124,13 +124,12 @@ for block in response.content:
 
 ## Severity levels
 
-| Severity | Delivery | Behavior |
-|----------|----------|----------|
-| `normal` | Voice call | Call with retry (recommended default) |
-| `critical` | Immediate call | More retries, bypasses quiet hours |
-| `persistent_critical` | Repeated calls | Calls until acknowledged or retry limit hit |
+| Severity | Behavior |
+|----------|----------|
+| `normal` | Voice call with retries (2 min apart), respects quiet hours |
+| `critical` | Voice call with retries, bypasses quiet hours |
 
-> **Deprecated:** `low` and `urgent` are still accepted but mapped to `normal` by the API.
+> **Deprecated:** `low`, `urgent`, and `persistent_critical` are still accepted for backwards compatibility. `persistent_critical` maps to `critical`; others map to `normal`.
 
 ## Alert types
 
@@ -169,4 +168,4 @@ except ForbiddenError as e:
 
 - [AgentPing docs](https://agentping.me/docs)
 - [API reference](https://agentping.me/docs)
-- [GitHub](https://github.com/agentping/agentping-sdk/tree/main/python)
+- [GitHub](https://github.com/Sparkling-AI/agentping-sdk/tree/main/python)
