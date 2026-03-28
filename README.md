@@ -9,6 +9,7 @@ Official client libraries for [AgentPing](https://agentping.me) — escalation a
 | Python SDK | [`python/`](./python) | `pip install agentping` |
 | TypeScript SDK | [`typescript/`](./typescript) | `npm install agentping` |
 | OpenClaw Skill | [`openclaw/`](./openclaw) | `clawhub install agentping-phone-call-alerts` |
+| Claude Code Skill | [`claude-code/`](./claude-code) | Copy `SKILL.md` to `~/.claude/skills/agentping/` |
 
 ## What's included
 
@@ -85,6 +86,22 @@ clawhub install agentping-phone-call-alerts
 Or publish your own version:
 ```bash
 clawhub publish ./openclaw --slug agentping-phone-call-alerts --version 1.0.4
+```
+
+## Claude Code Skill
+
+The [`claude-code/`](./claude-code) directory contains a [Claude Code](https://claude.ai/code) skill that lets Claude call your phone via AgentPing when it needs your attention — e.g. "call me when it's done", "ping me if you need me".
+
+Install by copying the skill to your Claude Code skills directory:
+```bash
+mkdir -p ~/.claude/skills/agentping
+cp claude-code/SKILL.md ~/.claude/skills/agentping/SKILL.md
+```
+
+Set your API key so Claude can use it:
+```bash
+echo 'export AGENTPING_API_KEY="ap_sk_your_key_here"' >> ~/.zshrc
+source ~/.zshrc
 ```
 
 ## Links
