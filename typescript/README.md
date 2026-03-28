@@ -5,13 +5,13 @@ Official TypeScript/JavaScript SDK for [AgentPing](https://agentping.me) — pho
 ## Install
 
 ```bash
-npm install agentping
+npm install agentping-sdk
 ```
 
 ## Quick start
 
 ```typescript
-import { AgentPingClient } from "agentping";
+import { AgentPingClient } from "agentping-sdk";
 
 const client = new AgentPingClient({ apiKey: "ap_sk_..." });
 
@@ -40,7 +40,7 @@ console.log(ack.status); // "acknowledged"
 The SDK includes an OpenAI-compatible tool definition you can plug into any agent framework:
 
 ```typescript
-import { AgentPingClient, toolDefinition, handleToolCall } from "agentping";
+import { AgentPingClient, toolDefinition, handleToolCall } from "agentping-sdk";
 
 const client = new AgentPingClient({ apiKey: "ap_sk_..." });
 
@@ -55,7 +55,7 @@ const result = await handleToolCall(client, toolCallArgs);
 
 ```typescript
 import OpenAI from "openai";
-import { AgentPingClient, toolDefinition, handleToolCall } from "agentping";
+import { AgentPingClient, toolDefinition, handleToolCall } from "agentping-sdk";
 
 const openai = new OpenAI();
 const agentping = new AgentPingClient({ apiKey: "ap_sk_..." });
@@ -88,7 +88,7 @@ for (const toolCall of response.choices[0].message.tool_calls ?? []) {
 
 ```typescript
 import Anthropic from "@anthropic-ai/sdk";
-import { AgentPingClient, toolDefinition, handleToolCall } from "agentping";
+import { AgentPingClient, toolDefinition, handleToolCall } from "agentping-sdk";
 
 const anthropic = new Anthropic();
 const agentping = new AgentPingClient({ apiKey: "ap_sk_..." });
@@ -151,7 +151,7 @@ import {
   AgentPingClient,
   RateLimitError,
   ForbiddenError,
-} from "agentping";
+} from "agentping-sdk";
 
 const client = new AgentPingClient({ apiKey: "ap_sk_..." });
 
