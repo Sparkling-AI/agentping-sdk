@@ -1,6 +1,6 @@
 ---
 name: agentping
-description: Phone call alerts via AgentPing. Use when the user asks to be called, pinged, or phoned — e.g. "call me when done", "ping me if you need me", "phone me if I don't reply".
+description: Phone call alerts via AgentPing. ONLY use when the user explicitly asks to be called — e.g. "call me when done", "ping me if it stucks", "phone me if I don't reply". Never call proactively.
 allowed-tools: Bash
 ---
 
@@ -38,15 +38,18 @@ export AGENTPING_API_KEY="THE_KEY"
 
 ## When to Use
 
-Activate when the user says things like:
+**Only when the user explicitly requests a call.** The user must say something that clearly means "phone me." Examples:
 - "call me when it's done"
-- "ping me if you need something"
+- "ping me if it gets stuck"
 - "this is urgent, call me if I don't reply in 5 minutes"
 - "phone me when the build finishes"
+- "if you need me, call me"
 
-Do NOT use AgentPing for:
-- Routine status updates (just use chat)
-- Every minor question (only escalate when the user asked for it or the situation is genuinely urgent)
+**Do NOT use AgentPing:**
+- On your own initiative — never decide by yourself that a situation warrants a phone call
+- For routine status updates (just use chat)
+- For every question or blocker — only escalate to a call if the user previously asked you to
+- Because something failed or seems urgent — unless the user explicitly told you to call them in that scenario
 
 ## Creating an Alert
 
@@ -65,6 +68,18 @@ curl -s -X POST https://api.agentping.me/v1/alerts \
 
 Save the returned `id` field — you need it to acknowledge or check status.
 
+## Critical Behavior: Always Create the Alert Alongside Your Message
+
+**The alert IS the timer.** When you need to notify the user (task done, need input, something broke), you MUST create the alert **in the same response** as your chat message. Do not send a chat message and wait for a reply — you will never get to the alert creation step.
+
+**WRONG** (common mistake):
+1. Send chat message asking a question
+2. Wait for user to reply ← you stop here and the alert never gets created
+
+**RIGHT:**
+1. In a single response: explain the situation in chat AND call the curl command to create the alert
+2. The alert's `delay_seconds` acts as the timer — if the user replies before it fires, acknowledge to cancel
+
 ## Patterns
 
 ### "Call me when it's done"
@@ -72,11 +87,10 @@ Save the returned `id` field — you need it to acknowledge or check status.
 User wants a phone call after a long-running task completes.
 
 1. Complete the task.
-2. Send a chat message with the results.
-3. Create an alert with `delay_seconds: 300` (5 min grace period for the user to see chat first).
-4. If the user replies in chat before the call fires, **acknowledge the alert immediately**.
+2. **In the same response:** send a chat message with the results AND create the alert with `delay_seconds: 300` (5 min grace period for the user to see chat first).
+3. If the user replies in chat before the call fires, **acknowledge the alert immediately**.
 
-Example:
+Example — your response should contain both a chat message AND this curl call:
 ```bash
 curl -s -X POST https://api.agentping.me/v1/alerts \
   -H "Content-Type: application/json" \
@@ -95,12 +109,14 @@ curl -s -X POST https://api.agentping.me/v1/alerts \
 User is going AFK. Call them only if Claude needs input and the user hasn't responded.
 
 1. Remember this instruction for the session.
-2. When you actually need input: send a chat message asking your question.
-3. Create an alert with `delay_seconds` matching what the user specified (default 300 if unspecified).
-4. If the user replies in chat, **acknowledge the alert immediately**.
-5. Do NOT create the alert preemptively — only when you genuinely need input.
+2. Continue working. Do NOT create an alert preemptively.
+3. **When you actually need input:** in a **single response**, do BOTH of these:
+   - Write your question/blocker in chat so the user sees it
+   - Create the alert (curl call) with `delay_seconds` matching what the user specified (default 300)
+4. The `delay_seconds` is your timer — the call only fires if the user hasn't replied.
+5. If the user replies in chat before the delay expires, **acknowledge the alert immediately** to cancel the call.
 
-Example:
+Example — your response should contain both a chat message AND this curl call:
 ```bash
 curl -s -X POST https://api.agentping.me/v1/alerts \
   -H "Content-Type: application/json" \
@@ -118,15 +134,15 @@ curl -s -X POST https://api.agentping.me/v1/alerts \
 
 User explicitly wants an immediate call, or something critical happened.
 
-1. Send a chat message explaining the situation.
-2. Create an alert with `delay_seconds: 0`.
+**In a single response:** send a chat message explaining the situation AND create the alert with `delay_seconds: 0`.
 
 ### Task failure
 
-Something broke that the user must know about.
+Only applicable if the user previously said something like "call me if something breaks" or "call me if it gets stuck."
 
-1. Send a chat message with the error details.
-2. Create an alert with `alert_type: "task_failure"` and `delay_seconds: 0` for critical failures, or `delay_seconds: 120` for non-critical ones.
+**In a single response:** send a chat message with the error details AND create the alert with `alert_type: "task_failure"` and `delay_seconds: 0` for critical failures, or `delay_seconds: 120` for non-critical ones.
+
+If the user did NOT ask to be called for failures, just report the error in chat. Do not call.
 
 ## Acknowledging Alerts
 
@@ -166,7 +182,8 @@ Statuses: `waiting_for_primary_ack` (delay period), `escalating_call` (calling),
 
 ## Rules
 
-- **Chat first, call second.** Always send a chat message before creating an alert.
+- **Explicit request only.** Never create an alert unless the user explicitly asked to be called. No proactive calls, no matter how urgent you think the situation is.
+- **Chat message + alert in the same response.** Never send a chat message and then wait — create the alert in the same turn. The delay_seconds is the timer; you don't need to wait yourself.
 - **Phone ack is not approval.** If you need permission (deploy, delete, etc.), wait for explicit chat approval even after the user acknowledges the call.
 - **Acknowledge promptly.** If the user replies in chat while an alert is pending, acknowledge it immediately so they don't get an unnecessary call.
 - **Keep titles short.** Titles are spoken aloud on the phone call.
